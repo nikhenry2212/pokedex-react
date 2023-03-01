@@ -1,8 +1,12 @@
-import {Routing} from './routes/route';
-function App() {
+import { Routing } from "./routes/route";
+import { ChakraProvider } from "@chakra-ui/react";
 
+
+function App() {
   return (
-    <Routing/>
+    <ChakraProvider>
+      <Routing />
+    </ChakraProvider>
   );
 }
 

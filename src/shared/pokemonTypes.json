@@ -1,0 +1,108 @@
+[
+    {
+        "english": "Normal",
+        "color": "#ccc"
+    },
+    {
+        "english": "Fighting",
+        "chinese": "格斗",
+        "japanese": "かくとう",
+        "color": "pink"
+    },
+    {
+        "english": "Flying",
+        "chinese": "飞行",
+        "japanese": "ひこう",
+        "color": "#c32323"
+    },
+    {
+        "english": "Poison",
+        "chinese": "毒",
+        "japanese": "どく",
+        "color": "violet"
+    },
+    {
+        "english": "Ground",
+        "chinese": "地上",
+        "japanese": "じめん",
+        "color": "ccc"
+    },
+    {
+        "english": "Rock",
+        "chinese": "岩石",
+        "japanese": "いわ",
+        "color": "brow"
+    },
+    {
+        "english": "Bug",
+        "chinese": "虫",
+        "japanese": "むし",
+        "color": "green"
+    },
+    {
+        "english": "Ghost",
+        "chinese": "幽灵",
+        "japanese": "ゴースト",
+        "color": "#ccc"
+    },
+    {
+        "english": "Steel",
+        "chinese": "钢",
+        "japanese": "はがね",
+        "color": "blue"
+    },
+    {
+        "english": "Fire",
+        "chinese": "炎",
+        "japanese": "ほのお",
+        "color": "red"
+    },
+    {
+        "english": "water",
+        "chinese": "水",
+        "japanese": "みず",
+        "color": "aquamarine"
+    },
+    {
+        "english": "Grass",
+        "chinese": "草",
+        "japanese": "くさ",
+        "color": ""
+    },
+    {
+        "english": "Electric",
+        "chinese": "电",
+        "japanese": "でんき",
+        "color": "yellow"
+    },
+    {
+        "english": "psychic",
+        "chinese": "超能",
+        "japanese": "エスパー",
+        "color": "black"
+    },
+    {
+        "english": "Ice",
+        "chinese": "冰",
+        "japanese": "こおり",
+        "color": "#ffff4"
+    },
+    {
+        "english": "Dragon",
+        "chinese": "龙",
+        "japanese": "ドラゴン",
+        "color": "brow"
+    },
+    {
+        "english": "Dark",
+        "chinese": "恶",
+        "japanese": "あく",
+        "color": "#000"
+    },
+    {
+        "english": "Fairy",
+        "chinese": "妖精",
+        "japanese": "フェアリー",
+        "color": "#ccc342"
+    }
+]
