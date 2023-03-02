@@ -51,12 +51,12 @@ export function Home() {
   function onSubmit(values) {
     return new Promise((resolve) => {
       setTimeout(() => {
-        console.log(value);
-        searchPokemonId(values.name);
+       
+        searchPokemonId(values.name.toLocaleLowerCase());
 
         resolve();
       }, 3000);
-      console.log(register);
+     
     });
   }
 
@@ -77,7 +77,7 @@ export function Home() {
       .get(`https://pokeapi.co/api/v2/pokemon/${idOrName}`)
       .then((res) => {
         setValue(res.data);
-        console.log(value);
+      
       })
       .catch((err) => console.error(err));
   };
@@ -114,7 +114,7 @@ export function Home() {
           <Input
             id="name"
             placeholder="Capture um Pokemon"
-            onChange={e => onSubmit(e)}
+            onChange={(e) => onSubmit(e)}
             {...register("name", {
               required: "Campo obrigatório",
               minLength: { value: 4, message: "Minimo de 4 caracteres" },
@@ -135,26 +135,29 @@ export function Home() {
       </form>
 
       {value.length !== 0 ? (
-        <Flex 
-        display={'flex'}
-        alignItems={'center'}
-        justifyContent={'center'}
-        >
-          <Card  display={'flex'}
-        alignItems={'center'}
-        justifyContent={'center'} width={"260px"} marginTop={8}>
-            <CardBody 
-            display={'flex'}
-            alignItems={'center'}
-            justifyContent={'center'}>
+        <Flex display={"flex"} alignItems={"center"} justifyContent={"center"}>
+          <Card
+            display={"flex"}
+            alignItems={"center"}
+            justifyContent={"center"}
+            width={"260px"}
+            marginTop={8}
+          >
+            <CardBody
+              display={"flex"}
+              alignItems={"center"}
+              justifyContent={"center"}
+            >
               <Image
-                width={'100px'}
+                width={"100px"}
                 backgroundColor={"#000"}
                 borderRadius="lg"
                 src={value.sprites.front_default}
               />
               <Stack mt="6" spacing="3">
-                <Heading ml="6" size="md">{value.name.toLocaleUpperCase()}</Heading>
+                <Heading ml="6" size="md">
+                  {value.name.toLocaleUpperCase()}
+                </Heading>
               </Stack>
             </CardBody>
           </Card>
