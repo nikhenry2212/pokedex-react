@@ -60,17 +60,6 @@ export function Home() {
     });
   }
 
-  // const searchPokemon =  (event) => {
-  //   console.log(event.target.value);
-  //   setValue(event.target.value);
-  //   if (value.length !== 0){
-  //     setTimeout(()=>{
-  //       searchPokemonId(value)
-  //     }, 3000)
-
-  //   }
-
-  // };
 
   const searchPokemonId = (idOrName) => {
     axios
@@ -84,14 +73,7 @@ export function Home() {
 
   return (
     <div style={{ backgroundColor: "#393053" }}>
-      {/* <Flex
-        backgroundColor={"#393053"}
-        // alignItems="center"
-        width={"100%"}
-        flexDirection={"row"}
-        justifyContent="center"
-        alignItems={"center"}
-      > */}
+
       <form
         style={{
           display: "flex",
