@@ -1,10 +1,8 @@
 /* eslint-disable no-unused-expressions */
 import React, { useEffect, useState } from "react";
-import json from "./../../shared/pokemonTypes.json";
+import { types, typesArray } from "../../shared/pokemonTypes";
 // import { api } from "../../api/axios";
 import axios from "axios";
-
-// import { DeleteIcon  } from '@mui/icons-material';
 
 import { useForm } from "react-hook-form";
 import {
@@ -20,7 +18,7 @@ import {
   FormControl,
   FormErrorMessage,
   Alert,
-  AlertTitle
+  AlertTitle,
 } from "@chakra-ui/react";
 // import { axios } from 'axios';
 import ClearIcon from "@mui/icons-material/Clear";
@@ -29,8 +27,8 @@ export function Home() {
   const [pokemons, setPokemons] = useState([]);
   const [value, setValue] = useState([]);
   const [cleanField, setCleanField] = useState(false);
-  const [erro, setErro] = useState(false)
-  const [logErro, setlogErro] = useState('')
+  const [erro, setErro] = useState(false);
+  const [logErro, setlogErro] = useState("");
 
   const {
     handleSubmit,
@@ -66,21 +64,19 @@ export function Home() {
   }
 
   const searchPokemonId = (idOrName) => {
-    setErro(false)
+    setErro(false);
     axios
       .get(`https://pokeapi.co/api/v2/pokemon/${idOrName}`)
       .then((res) => {
         setValue(res.data);
         setCleanField(true);
-
       })
       .catch((err) => {
         // setlogErro(err.response.data);
-        if (err.response.data === "Not Found"){
-        setlogErro('Pokemon não exite!');
-
+        if (err.response.data === "Not Found") {
+          setlogErro("Pokemon não exite!");
         }
-        setErro(true)
+        setErro(true);
       });
   };
 
@@ -91,6 +87,18 @@ export function Home() {
 
   return (
     <div style={{ backgroundColor: "#393053" }}>
+      <Flex display={'flex'}
+      alignItems={'center'}
+      justifyContent={'center'}
+      >
+      <Image
+      width={500}
+        src={
+          "https://i0.wp.com/multarte.com.br/wp-content/uploads/2019/03/pokemon-png-logo.png?fit=2000%2C736&ssl=1"
+        }
+      />
+
+      </Flex>
       <form
         style={{
           display: "flex",
@@ -133,9 +141,7 @@ export function Home() {
         </FormControl>
       </form>
 
-      {
-      value.length !== 0 && cleanField ? 
-      (
+      {value.length !== 0 && cleanField ? (
         <Flex display={"flex"} alignItems={"center"} justifyContent={"center"}>
           <Card
             display={"flex"}
@@ -174,18 +180,23 @@ export function Home() {
             </CardBody>
           </Card>
         </Flex>
-      ) :  (
+      ) : (
         <Flex display={"flex"} alignItems={"center"} justifyContent={"center"}>
-        <Alert borderRadius={8} width={900} onClose={() => {}} hidden={erro === false} mt={8} severity="warning" color={'#fff'} backgroundColor={'#db4444'}>
-          <AlertTitle>Error</AlertTitle>
-          {logErro} 
-        </Alert>
-
+          <Alert
+            borderRadius={8}
+            width={900}
+            onClose={() => {}}
+            hidden={erro === false}
+            mt={8}
+            severity="warning"
+            color={"#fff"}
+            backgroundColor={"#db4444"}
+          >
+            <AlertTitle>Error</AlertTitle>
+            {logErro}
+          </Alert>
         </Flex>
-
-      )
-    
-    }
+      )}
       {/* <Flex></Flex> */}
 
       <Flex
@@ -233,19 +244,35 @@ export function Home() {
                   <Heading size="md">
                     {pokemon.data.name.toLocaleUpperCase()}
                   </Heading>
-                  <Text
-                    style={
-                      pokemon.data.types.map((slot) => slot.type.name) !==
-                      json.map((item) => item.english.charAt())
-                        ? { background: json.map((item) => item.color) }
-                        : { background: "#050505" }
-                    }
-                  >
-                    type: {pokemon.data.types.map((slot) => slot.type.name)}
-                  </Text>
+
+                  <Flex display={"flex"}>
+                    type:{" "}
+                    <Text
+                      style={
+                        pokemon.data.types.map((slot) => slot.type.name) ===
+                        typesArray.map((cor) => cor)
+                          ? { backgroundColor: types.bug }
+                          : null
+                      }
+                    >
+                      {" "}
+                      {pokemon.data.types.map((slot) => slot.type.name)}
+                    </Text>
+                  </Flex>
                   <Text color="blue.600" fontSize="2xl">
                     weight: {pokemon.data.weight} kg
                   </Text>
+                  <Image
+                    width={20}
+                    height={20}
+                    src={
+                      pokemon.data.sprites.versions["generation-v"][
+                        "black-white"
+                      ].animated.front_default
+                    }
+                    alt="Green double couch with wooden legs"
+                    borderRadius="lg"
+                  />
                 </Stack>
               </CardBody>
               {/* <Divider /> */}
