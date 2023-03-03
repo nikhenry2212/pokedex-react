@@ -3,7 +3,9 @@ import React, { useEffect, useState } from "react";
 import json from "./../../shared/pokemonTypes.json";
 // import { api } from "../../api/axios";
 import axios from "axios";
-import "./Home.css";
+
+// import { DeleteIcon  } from '@mui/icons-material';
+
 import { useForm } from "react-hook-form";
 import {
   Card,
@@ -13,22 +15,23 @@ import {
   Text,
   Image,
   Flex,
-  Container,
   Input,
   Button,
   FormControl,
   FormErrorMessage,
-  FormLabel,
 } from "@chakra-ui/react";
 // import { axios } from 'axios';
+import ClearIcon from "@mui/icons-material/Clear";
 
 export function Home() {
   const [pokemons, setPokemons] = useState([]);
   const [value, setValue] = useState([]);
+  const [cleanField, setCleanField] = useState(false);
 
   const {
     handleSubmit,
     register,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm();
 
@@ -51,29 +54,31 @@ export function Home() {
   function onSubmit(values) {
     return new Promise((resolve) => {
       setTimeout(() => {
-       
         searchPokemonId(values.name.toLocaleLowerCase());
 
         resolve();
       }, 3000);
-     
     });
   }
-
 
   const searchPokemonId = (idOrName) => {
     axios
       .get(`https://pokeapi.co/api/v2/pokemon/${idOrName}`)
       .then((res) => {
         setValue(res.data);
-      
+        setCleanField(true);
       })
       .catch((err) => console.error(err));
   };
 
+  const cleanFieldAndForm = () => {
+    console.log("aqui");
+    setCleanField(false);
+    reset();
+  };
+
   return (
     <div style={{ backgroundColor: "#393053" }}>
-
       <form
         style={{
           display: "flex",
@@ -116,13 +121,13 @@ export function Home() {
         </FormControl>
       </form>
 
-      {value.length !== 0 ? (
+      {value.length !== 0 && cleanField ? (
         <Flex display={"flex"} alignItems={"center"} justifyContent={"center"}>
           <Card
             display={"flex"}
             alignItems={"center"}
-            justifyContent={"center"}
-            width={"260px"}
+            justifyContent={"space-evenly"}
+            width={"300px"}
             marginTop={8}
           >
             <CardBody
@@ -136,17 +141,29 @@ export function Home() {
                 borderRadius="lg"
                 src={value.sprites.front_default}
               />
-              <Stack mt="6" spacing="3">
+              <Stack mt="" spacing="3">
                 <Heading ml="6" size="md">
                   {value.name.toLocaleUpperCase()}
                 </Heading>
+
+                {/* <DeleteIcon/> */}
               </Stack>
+              <Button
+                onClick={() => cleanFieldAndForm()}
+                size={"sm"}
+                ml="4"
+                color={"#dd0a03"}
+                backgroundColor={"#6371aa"}
+              >
+                <ClearIcon color={"success"} />
+              </Button>
             </CardBody>
           </Card>
         </Flex>
       ) : (
         <span></span>
       )}
+      {/* <Flex></Flex> */}
 
       <Flex
         backgroundColor={"#393053"}
@@ -156,8 +173,28 @@ export function Home() {
         flexDirection={"row"}
         flexWrap={"wrap"}
         justifyContent="center"
+        
       >
-        {pokemons.map((pokemon, index) => (
+     { pokemons.length === 0 ?
+     <Flex minWidth="100%"
+     backgroundColor={"#393053"}
+     alignItems="center"
+     gap="2"
+     flexDirection={"row"}
+     height="900px"
+     flexWrap={"wrap"}
+     justifyContent="center">
+      <Image
+      
+        src={"https://media.tenor.com/_3R8EL8_DQYAAAAi/pokeball-pokemon.gif"}
+      />  
+      <Text color={'#fff'} fontSize={24}>
+        Carregando...
+      </Text>
+     </Flex>
+
+      :
+        pokemons.map((pokemon, index) => (
           <Card key={index} marginTop={8} width="400px">
             <CardBody>
               <Image
