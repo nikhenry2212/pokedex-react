@@ -19,6 +19,8 @@ import {
   Button,
   FormControl,
   FormErrorMessage,
+  Alert,
+  AlertTitle
 } from "@chakra-ui/react";
 // import { axios } from 'axios';
 import ClearIcon from "@mui/icons-material/Clear";
@@ -27,6 +29,8 @@ export function Home() {
   const [pokemons, setPokemons] = useState([]);
   const [value, setValue] = useState([]);
   const [cleanField, setCleanField] = useState(false);
+  const [erro, setErro] = useState(false)
+  const [logErro, setlogErro] = useState('')
 
   const {
     handleSubmit,
@@ -62,17 +66,25 @@ export function Home() {
   }
 
   const searchPokemonId = (idOrName) => {
+    setErro(false)
     axios
       .get(`https://pokeapi.co/api/v2/pokemon/${idOrName}`)
       .then((res) => {
         setValue(res.data);
         setCleanField(true);
+
       })
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        // setlogErro(err.response.data);
+        if (err.response.data === "Not Found"){
+        setlogErro('Pokemon não exite!');
+
+        }
+        setErro(true)
+      });
   };
 
   const cleanFieldAndForm = () => {
-    console.log("aqui");
     setCleanField(false);
     reset();
   };
@@ -121,7 +133,9 @@ export function Home() {
         </FormControl>
       </form>
 
-      {value.length !== 0 && cleanField ? (
+      {
+      value.length !== 0 && cleanField ? 
+      (
         <Flex display={"flex"} alignItems={"center"} justifyContent={"center"}>
           <Card
             display={"flex"}
@@ -160,9 +174,18 @@ export function Home() {
             </CardBody>
           </Card>
         </Flex>
-      ) : (
-        <span></span>
-      )}
+      ) :  (
+        <Flex display={"flex"} alignItems={"center"} justifyContent={"center"}>
+        <Alert borderRadius={8} width={900} onClose={() => {}} hidden={erro === false} mt={8} severity="warning" color={'#fff'} backgroundColor={'#db4444'}>
+          <AlertTitle>Error</AlertTitle>
+          {logErro} 
+        </Alert>
+
+        </Flex>
+
+      )
+    
+    }
       {/* <Flex></Flex> */}
 
       <Flex
@@ -173,60 +196,62 @@ export function Home() {
         flexDirection={"row"}
         flexWrap={"wrap"}
         justifyContent="center"
-        
       >
-     { pokemons.length === 0 ?
-     <Flex minWidth="100%"
-     backgroundColor={"#393053"}
-     alignItems="center"
-     gap="2"
-     flexDirection={"row"}
-     height="900px"
-     flexWrap={"wrap"}
-     justifyContent="center">
-      <Image
-      
-        src={"https://media.tenor.com/_3R8EL8_DQYAAAAi/pokeball-pokemon.gif"}
-      />  
-      <Text color={'#fff'} fontSize={24}>
-        Carregando...
-      </Text>
-     </Flex>
-
-      :
-        pokemons.map((pokemon, index) => (
-          <Card key={index} marginTop={8} width="400px">
-            <CardBody>
-              <Image
-                backgroundColor={"#000"}
-                src={
-                  pokemon.data.sprites.other["official-artwork"].front_default
-                }
-                alt="Green double couch with wooden legs"
-                borderRadius="lg"
-              />
-              <Stack mt="6" spacing="3">
-                <Heading size="md">
-                  {pokemon.data.name.toLocaleUpperCase()}
-                </Heading>
-                <Text
-                  style={
-                    pokemon.data.types.map((slot) => slot.type.name) !==
-                    json.map((item) => item.english.charAt())
-                      ? { background: json.map((item) => item.color) }
-                      : { background: "#050505" }
+        {pokemons.length === 0 ? (
+          <Flex
+            minWidth="100%"
+            backgroundColor={"#393053"}
+            alignItems="center"
+            gap="2"
+            flexDirection={"row"}
+            height="900px"
+            flexWrap={"wrap"}
+            justifyContent="center"
+          >
+            <Image
+              src={
+                "https://media.tenor.com/_3R8EL8_DQYAAAAi/pokeball-pokemon.gif"
+              }
+            />
+            <Text color={"#fff"} fontSize={24}>
+              Carregando...
+            </Text>
+          </Flex>
+        ) : (
+          pokemons.map((pokemon, index) => (
+            <Card key={index} marginTop={8} width="400px">
+              <CardBody>
+                <Image
+                  backgroundColor={"#000"}
+                  src={
+                    pokemon.data.sprites.other["official-artwork"].front_default
                   }
-                >
-                  type: {pokemon.data.types.map((slot) => slot.type.name)}
-                </Text>
-                <Text color="blue.600" fontSize="2xl">
-                  weight: {pokemon.data.weight} kg
-                </Text>
-              </Stack>
-            </CardBody>
-            {/* <Divider /> */}
-          </Card>
-        ))}
+                  alt="Green double couch with wooden legs"
+                  borderRadius="lg"
+                />
+                <Stack mt="6" spacing="3">
+                  <Heading size="md">
+                    {pokemon.data.name.toLocaleUpperCase()}
+                  </Heading>
+                  <Text
+                    style={
+                      pokemon.data.types.map((slot) => slot.type.name) !==
+                      json.map((item) => item.english.charAt())
+                        ? { background: json.map((item) => item.color) }
+                        : { background: "#050505" }
+                    }
+                  >
+                    type: {pokemon.data.types.map((slot) => slot.type.name)}
+                  </Text>
+                  <Text color="blue.600" fontSize="2xl">
+                    weight: {pokemon.data.weight} kg
+                  </Text>
+                </Stack>
+              </CardBody>
+              {/* <Divider /> */}
+            </Card>
+          ))
+        )}
       </Flex>
     </div>
   );
