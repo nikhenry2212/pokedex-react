@@ -29,6 +29,7 @@ export function Home() {
   const [cleanField, setCleanField] = useState(false);
   const [erro, setErro] = useState(false);
   const [logErro, setlogErro] = useState("");
+  const [poke, setPoke] = useState(21);
 
   const {
     handleSubmit,
@@ -44,7 +45,7 @@ export function Home() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const getPokemons = () => {
     var endpoints = [];
-    for (var i = 1; i < 200; i++) {
+    for (var i = 1; i < 10; i++) {
       endpoints.push(`https://pokeapi.co/api/v2/pokemon/${i}/`);
     }
     axios.all(endpoints.map((endpoint) => axios.get(endpoint))).then((res) => {
@@ -84,6 +85,18 @@ export function Home() {
     setCleanField(false);
     reset();
   };
+
+  const LoadingPokemons =  () => {
+    let endpoints = []
+    setPoke(poke + 10)
+    for (var i = 1; i < poke; i++) {
+      endpoints.push(`https://pokeapi.co/api/v2/pokemon/${i}/`);
+    }
+    axios.all(endpoints.map((endpoint) => axios.get(endpoint))).then((res) => {
+      console.log(res);
+      setPokemons(res);
+    });
+  }
 
   return (
     <div style={{ backgroundColor: "#393053" }}>
@@ -279,6 +292,13 @@ export function Home() {
             </Card>
           ))
         )}
+      </Flex>
+      <Flex  display={'flex'} justifyContent={"space-between"} marginTop={8} marginRight={16} 
+     >
+      <span></span>
+     <span></span>
+      <Button marginBottom={8} color={'#fff'} backgroundColor={'#c021b8'} onClick={() => LoadingPokemons()}>Carregar + </Button>
+
       </Flex>
     </div>
   );
