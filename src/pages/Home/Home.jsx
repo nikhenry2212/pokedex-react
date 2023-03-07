@@ -83,12 +83,13 @@ export function Home() {
 
   const cleanFieldAndForm = () => {
     setCleanField(false);
+    setErro(false);
     reset();
   };
 
-  const LoadingPokemons =  () => {
-    let endpoints = []
-    setPoke(poke + 10)
+  const LoadingPokemons = () => {
+    let endpoints = [];
+    setPoke(poke + 10);
     for (var i = 1; i < poke; i++) {
       endpoints.push(`https://pokeapi.co/api/v2/pokemon/${i}/`);
     }
@@ -96,21 +97,17 @@ export function Home() {
       console.log(res);
       setPokemons(res);
     });
-  }
+  };
 
   return (
     <div style={{ backgroundColor: "#393053" }}>
-      <Flex display={'flex'}
-      alignItems={'center'}
-      justifyContent={'center'}
-      >
-      <Image
-      width={500}
-        src={
-          "https://i0.wp.com/multarte.com.br/wp-content/uploads/2019/03/pokemon-png-logo.png?fit=2000%2C736&ssl=1"
-        }
-      />
-
+      <Flex display={"flex"} alignItems={"center"} justifyContent={"center"}>
+        <Image
+          width={500}
+          src={
+            "https://i0.wp.com/multarte.com.br/wp-content/uploads/2019/03/pokemon-png-logo.png?fit=2000%2C736&ssl=1"
+          }
+        />
       </Flex>
       <form
         style={{
@@ -197,16 +194,28 @@ export function Home() {
         <Flex display={"flex"} alignItems={"center"} justifyContent={"center"}>
           <Alert
             borderRadius={8}
-            width={900}
+            width={1200}
             onClose={() => {}}
             hidden={erro === false}
             mt={8}
             severity="warning"
             color={"#fff"}
             backgroundColor={"#db4444"}
+            display={"flex"}
           >
             <AlertTitle>Error</AlertTitle>
             {logErro}
+            <Flex width={'950px'} display={'flex'} justifyContent={'end'} >
+              <Button
+                onClick={() => cleanFieldAndForm()}
+                size={"sm"}
+                ml="4"
+                color={"#dd0a03"}
+                backgroundColor={"#fff"}
+              >
+                <ClearIcon color={"success"} />
+              </Button>
+            </Flex>
           </Alert>
         </Flex>
       )}
@@ -293,12 +302,22 @@ export function Home() {
           ))
         )}
       </Flex>
-      <Flex  display={'flex'} justifyContent={"space-between"} marginTop={8} marginRight={16} 
-     >
-      <span></span>
-     <span></span>
-      <Button marginBottom={8} color={'#fff'} backgroundColor={'#c021b8'} onClick={() => LoadingPokemons()}>Carregar + </Button>
-
+      <Flex
+        display={"flex"}
+        justifyContent={"space-between"}
+        marginTop={8}
+        marginRight={16}
+      >
+        <span></span>
+        <span></span>
+        <Button
+          marginBottom={8}
+          color={"#fff"}
+          backgroundColor={"#c021b8"}
+          onClick={() => LoadingPokemons()}
+        >
+          Carregar +{" "}
+        </Button>
       </Flex>
     </div>
   );
